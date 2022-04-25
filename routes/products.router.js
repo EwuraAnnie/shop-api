@@ -1,23 +1,21 @@
 const { Router } = require("express");
-const { 
-    createProduct,
-    getAllProducts,
-    getSingleProduct,
-    updateProduct,
-    deleteProduct, 
+const {
+  createProduct,
+  getAllProducts,
+  getSingleProduct,
+  updateProduct,
+  deleteProduct,
 } = require("../controllers/products.controller");
+const { verifyToken } = require("../middlewares/verifyToken");
 
 const productRouter = Router();
 
-productRouter
-.route("/")
-.get(getAllProducts)
-.post(createProduct);
+productRouter.route("/").get(verifyToken, getAllProducts).post(createProduct);
 
 productRouter
-.route("/:productId")
-.get(getSingleProduct)
-.patch(updateProduct)
-.delete(deleteProduct);
+  .route("/:productId")
+  .get(getSingleProduct)
+  .patch(updateProduct)
+  .delete(deleteProduct);
 
 module.exports = productRouter;
